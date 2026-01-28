@@ -1,72 +1,103 @@
-# ⚡ Zyven: Enterprise-Grade Reliability Middleware
+# ⚡ Zyven: Distributed Reliability Middleware
+> **Eliminate Webhook Data Loss.** Zyven is a high-performance middleware that guarantees at-least-once delivery between your core services and external endpoints.
 
-Zyven is a high-performance **Reliability Middleware** designed to sit between your application and external webhooks. It guarantees delivery, provides deep visibility, and ensures automatic recovery for mission-critical event-driven architectures.
-
-[![Work in Progress](https://img.shields.io/badge/Status-Active--Development-orange)](https://github.com/sultanxdev/zyven)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
----
-
-## 🧐 The Problem
-In modern distributed systems, calling external webhooks directly from your core services is risky:
-- **Downstream downtime** causes data loss.
-- **Network flickers** lead to failed notifications.
-- **Lack of visibility** makes debugging hard.
-- **Manual retries** are error-prone and tedious.
-
-## 🛡️ The Zyven Solution
-Zyven acts as a shock absorber for your events. It separates **Acceptance** from **Delivery**.
-1. **Acceptance (Sync)**: Rapidly persist the event and acknowledge the client.
-2. **Delivery (Async)**: Intelligently manage retries, idling, and delivery guarantees.
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status: Active Development](https://img.shields.io/badge/Status-Active--Development-orange)
+![Build: Passing](https://img.shields.io/badge/Build-Passing-green)
 
 ---
 
-## 🏗️ High-Level Architecture
-Zyven uses a decoupled, VPC-isolated architecture to ensure high availability and security.
+## 🧐 The Engineering Problem
+Calling external webhooks directly from your API creates a **tight coupling** and a **single point of failure**:
+- ❌ **Downstream Downtime**: If the receiver is down, your data is lost.
+- ❌ **Latency Spikes**: Waiting for a slow webhook response blocks your core API.
+- ❌ **Zombies**: Failed events without logs are impossible to debug.
+
+**Zyven acts as a shock absorber.** It separates **Acceptance** (Sync & Fast) from **Delivery** (Async & Reliable).
+
+---
+
+## 🏗️ System Architecture
+Zyven is built for high availability and strict security isolation.
 
 ![Zyven High-Level Architecture](docs/assets/high_level_architecture.png)
 
 ---
 
-## 🔄 End-to-End Flow
-The lifecycle of an event from ingestion to final delivery (or DLQ).
+## 🔄 Lifecycle: The Reliability Boundary
+Once Zyven commits an event to the source-of-truth database, we take **100% ownership** of its delivery.
 
 ![Zyven End-to-End Flow](docs/assets/end_to_end_flow.png)
 
 ---
 
-## 📊 Database Schema (ER Diagram)
-Zyven's data model is optimized for high-volume event tracking and auditability.
+## 🚀 Key Features
+- **🛡️ Idempotency Protection**: Never process the same event twice, even if the client retries the request.
+- **🔄 Intelligent Retries**: Exponential backoff with jitter and configurable retry limits.
+- **💀 Dead Letter Queue (DLQ)**: Failed events are automatically isolated for manual inspection and bulk replay.
+- **🔐 HMAC Webhook Signing**: Every delivery includes a cryptographic signature for security validation.
+- **🔍 Full Visibility**: Audit logs for every single HTTP attempt, including response headers and body.
+
+---
+
+## 📊 Data Model (ER Diagram)
+Designed for high-concurrency event tracking and observability.
 
 ![Zyven Database ER Diagram](docs/assets/er_diagram.png)
 
 ---
 
-## � Key Features
+## 🛠 Tech Stack
+- **Engine**: Node.js + Express (TypeScript)
+- **Infrastructure**: PostgreSQL (Persistence) + Redis (Queueing)
+- **Logic**: BullMQ (Job Scheduling) + Prisma/Drizzle (ORM)
+- **Security**: Dedicated Outgoing Proxy for SSRF protection
 
-- **✅ At-Least-Once Delivery**: Guaranteed event delivery even if the receiver is temporarily down.
-- **✅ Idempotency Protection**: Built-in mechanisms to prevent duplicate processing.
-- **✅ Bounded Retries**: Intelligent exponential backoff with configurable jitter.
-- **✅ Dead Letter Queue (DLQ)**: Failed events are routed for manual inspection and replay.
-- **✅ Webhook Signing**: Every delivery includes an HMAC signature for security.
-- **✅ Real-time Monitoring**: Full audit logs for every delivery attempt.
+---
+
+## 📂 Project Structure
+
+```text
+zyven/
+├── client/           # Dashboard & Analytics (Next.js)
+├── server/           # Core Reliability Engine (Node.js)
+│   ├── src/
+│   │   ├── api/      # Routes, Controllers, Validators
+│   │   ├── core/     # Business Logic & Services
+│   │   ├── workers/  # BullMQ Dispatch Processors
+│   │   ├── models/   # DB Schemas & Persistence
+│   │   ├── middleware/# Auth & Security Filters
+│   │   └── config/   # Environment & DB Connections
+│   └── tests/        # Integration & Load Testing
+├── infra/            # Docker, K8s & Deployment Scripts
+├── docs/             # Documentation & Diagrams
+└── README.md
+```
 
 ---
 
 ## 🔍 Visual Deep Dives
-For a more detailed look at the internal logic of Zyven, check out our explainer guides:
-- [🧠 Technical Explainer & Logic Flows](docs/explainer.md): Detailed diagrams for Retries, Idempotency, and Security.
-- [🏗️ System Architecture Theory](docs/architecture.md): High-level design principles and security strategy.
+- [🧠 Technical Explainer & Logic Flows](docs/explainer.md): Detailed diagrams for Retries and Security.
+- [🏗️ System Architecture Theory](docs/architecture.md): Engineering deep-dive into the "Reliability Boundary".
 
 ---
 
-## 🛠 Tech Stack
+## 🏃 Quick Start (Local Development)
+```bash
+# 1. Clone & Install
+git clone https://github.com/sultanxdev/zyven.git
+cd zyven
+npm install
 
-- **Frontend**: [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Tailwind CSS](https://tailwindcss.com/)
-- **Backend**: [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/)
-- **Database**: [PostgreSQL](https://www.postgresql.org/) (Prisma/Drizzle)
-- **Queue/Jobs**: [Redis](https://redis.io/) + [BullMQ](https://github.com/RedisBull/bullmq)
-- **Security**: [SSRF Protection](https://en.wikipedia.org/wiki/Server-side_request_forgery) via Outgoing Proxies
+# 2. Setup Environment
+cp .env.example .env
+
+# 3. Spin up Infrastructure
+docker-compose up -d
+
+# 4. Start Development Server
+npm run dev
+```
 
 ---
 
@@ -80,4 +111,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Project Link: [https://github.com/sultanxdev/zyven](https://github.com/sultanxdev/zyven)
 
 ---
-*Built with ❤️ for reliable webhooks.*
+*Built with ❤️ for mission-critical webhooks by Sultan*
