@@ -1,119 +1,100 @@
-# ⚡ Zyven (Under Development)
+# ⚡ Zyven
 
-🚧 **Work in Progress** — Zyven is an AI-powered workflow and productivity platform designed to help individuals and small teams automate repetitive tasks, manage processes, and execute work more efficiently.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Status: Under Development](https://img.shields.io/badge/Status-Under%20Development-orange.svg)](#)
+[![Tech Stack](https://img.shields.io/badge/Stack-Next.js%20%7C%20Node.js%20%7C%20PostgreSQL-blue.svg)](#)
 
-Zyven focuses on **actionable automation**, not dashboards for the sake of dashboards.
+Zyven is a high-performance **Reliability Middleware** designed to sit between your application and external webhooks. It guarantees delivery, provides deep visibility, and ensures automatic recovery for mission-critical event-driven architectures.
 
----
-
-## Product Overview
-
-**Name:** Zyven  
-**Tagline:** Automate work. Stay focused. Move faster.  
-**Mission:** Reduce manual effort and operational friction by enabling simple, AI-assisted workflows that adapt to real-world tasks.
+> [!IMPORTANT]
+> **Work in Progress**: Zyven is currently in active development. Features and APIs are subject to change.
 
 ---
 
-## Current Status
+## 🚀 Key Features
 
-- Product concept and use cases defined  
-- Core automation flow designed  
-- Tech stack finalized  
-- Initial workflow engine under development  
-- Not production-ready  
-
----
-
-## Problem
-
-Many professionals and small teams struggle with:
-- Repetitive manual tasks across tools  
-- Fragmented workflows and context switching  
-- Complex automation tools with steep learning curves  
-- Lack of intelligent decision-making in automation  
+- **✅ At-Least-Once Delivery**: Guaranteed event delivery even if the receiver is temporarily down.
+- **✅ Durable Persistence**: Every event is persisted to a source-of-truth database before processing.
+- **✅ Idempotency Protection**: Built-in mechanisms to prevent duplicate processing of the same event.
+- **✅ Bounded Retries**: Intelligent exponential backoff with configurable retry limits.
+- **✅ Dead Letter Queue (DLQ)**: Failed events are automatically routed to a DLQ for manual inspection.
+- **✅ Observability**: Full audit logs for every delivery attempt and response code.
+- **✅ Manual Replay**: Easily trigger replays for failed events after resolving downstream issues.
 
 ---
 
-## Solution
+## 🏗 System Architecture
 
-Zyven provides a lightweight, AI-assisted platform to:
-- Create and run task-based workflows  
-- Automate routine actions across services  
-- Use AI to interpret intent and execute steps  
-- Keep workflows simple, visible, and controllable  
+Zyven uses a decoupled architecture to ensure high availability and durability.
 
-The goal is **practical automation without complexity**.
+### High-Level Flow
+![Architecture Diagram](../server/src/assets/my-d.png)
 
----
+### End To End Flow
+![End To End Flow](../server/src/assets/my-d.png)
+    
+### Data Model
+![Data Model](../server/src/assets/my-d.png)
 
-## Key Features (Planned)
+## 🛠 Tech Stack
 
-- AI-assisted workflow creation  
-- Trigger-based automation (events, schedules, manual)  
-- Task orchestration and step execution  
-- Conditional logic and branching  
-- Integration-ready architecture (APIs, webhooks)  
-- Activity logs and execution history  
-- Notifications and alerts  
+- **Frontend**: [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Tailwind CSS](https://tailwindcss.com/)
+- **Backend**: [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **Queue/Jobs**: [Redis](https://redis.io/) + BullMQ
+- **Infrastructure**: [Docker](https://www.docker.com/) + [AWS](https://aws.amazon.com/)
 
 ---
 
 
-Design goals:
-- Modular workflow steps  
-- Predictable execution  
-- Human-in-the-loop control  
-- Scalable task processing  
+## 📊 How to Add Your Own Diagrams
+
+You can add diagrams to this README in two main ways:
+
+### 1. Using Mermaid (Recommended)
+GitHub natively supports **Mermaid.js**. You can write your diagrams in plain text right inside your Markdown files.
+- **Pro**: Easy to update, version-controlled, and accessible.
+- **Example**:
+  \```mermaid
+  graph LR
+    A[Start] --> B[Finish]
+  \```
+
+### 2. Using Custom Images
+If you prefer using tools like **Excalidraw**, **Lucidchart**, or **Canva**:
+1. Export your diagram as a `.png` or `.svg`.
+2. Create an `assets` folder in your project root.
+3. Upload the image there.
+4. Add it to the README using:
+   `![Architecture Diagram](./assets/my-diagram.png)`
 
 ---
 
-## Tech Stack
+## 🤝 Contributing
 
-- **Frontend:** Next.js + TypeScript + Tailwind CSS  
-- **Backend:** Node.js + Express  
-- **Database:** PostgreSQL  
-- **Queue / Jobs:** Redis  
-- **AI Layer:** LLM-based intent understanding  
-- **Auth:** JWT  
-- **Infra:** Docker + Cloud (AWS / GCP / Vercel)  
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
----
-
-## Roadmap
-
-- Visual workflow builder  
-- Pre-built workflow templates  
-- Third-party integrations (email, CRM, sheets)  
-- Team-based workflows and permissions  
-- Execution analytics and optimization insights  
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## Contributing
+## 📄 License
 
-This is currently a solo developer project.  
-Feedback, workflow ideas, and issue reports are welcome.
-
----
-
-## Contact
-
-Built by **Sultan Alam**  
-LinkedIn: https://www.linkedin.com/in/sultan-alam436/  
-Email: sultancodess@gmail.com  
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-## License
+## ✉️ Contact
 
-MIT License (to be applied after MVP stabilization).  
-All rights reserved during active development.
+**Sultan Alam** - [sultanalamdev@gmail.com](mailto:sultanalamdev@gmail.com)
+
+Project Link: [https://github.com/sultanxdev/zyven](https://github.com/sultanxdev/zyven)
 
 ---
-
-## Note
-
-This repository is under active development and not yet production-ready.  
-Breaking changes may occur as Zyven evolves.
+*Built with ❤️ for reliable webhooks.*
 
 
